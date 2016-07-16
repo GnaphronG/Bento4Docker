@@ -50,4 +50,4 @@ Running the tool without any argument will print out a summary of the tool’s c
 
 ## License
 
-Licensed under the [WTFPL](http://www.wtfpl.net).
+Licensed under the [WTFPL](http://www.wtfpl.net/txt/copying/).
