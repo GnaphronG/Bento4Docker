@@ -19,7 +19,7 @@ Usage: bento4 tool [args ...]
 Bento4 in Docker is a containerized version of Bento4,
 with support of http(s) url.
 
-Available commands:
+Available tools:
   aac2mp4
   mp42aac
   mp42hls
