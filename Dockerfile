@@ -12,13 +12,15 @@ RUN groupadd -r bento4 && \
     useradd -r -g bento4 bento4
 
 RUN apt-get update && \
-    apt-get install -y curl unzip && \
+    apt-get install -yq --no-install-recommends curl unzip && \
     curl -O -s http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
     sha1sum -b Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip | grep -o "^$BENTO4_CHECKSUM " && \
     unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
     ln -s /opt/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux /opt/bento4 && \
     chown -R bento4:bento4 /opt/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux && \
-    apt-get -y autoclean && rm -rf /var/lib/apt/lists/*
+    apt-get -yq purge unzip && \
+    apt-get -yq autoclean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY bento4.sh /opt/bento4/bento4.sh
 
