@@ -1,6 +1,8 @@
 #! /bin/bash
 
 set -e
+WORKDIR=/opt/bento4/bin
+MOUNTPOINT=/mnt
 
 if [ $# -lt 1 -o "$1" = "ls" ]; then
     cat << EOF
@@ -9,10 +11,15 @@ Usage: bento4 tool [args ...]
        bento4 ls
 
 Bento4 in Docker is a containerized version of Bento4,  
-with support of http(s) url.
+with support of HTTP(S) URL.
+
+if URL ends with @[0-9]+-[0-9]*, the part of the URL string from the '@' 
+(without quotes) until the end of the string will be removed and the 
+ending paramter with be converted into a HTTP range header
+(https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35).
 
 Available tools: 
-`ls /opt/bento4/bin | sed -e '/.so$/d' -e 's/^/  /'`
+`ls $WORKDIR | sed -e '/.so$/d' -e 's/^/  /'`
 
 See https://www.bento4.com/documentation/ for details on the command.
 Running the tool without any argument will print out a summary of the tool’s command line options and parameters.
@@ -20,15 +27,15 @@ EOF
 else
     args="$1"
     tmpd=`mktemp -d`
-    cd /mnt
+    cd $MOUNTPOINT
     for arg in ${@:2}; do
         if echo $arg | grep -q '^http'; then
             tmp=`mktemp -p $tmpd`
-            curl -s -o $tmp $arg
+            echo $arg | sed -e 's/^\(.*\)@\([0-9]\+-[0-9]*\)$/-H "Range:bytes=\2" \1/' | xargs curl -s -o $tmp
             arg=$tmp
         fi
         args="${args} ${arg}"
     done
-    /opt/bento4/bin/$args
+    $WORKDIR/$args
     rm -rf $tmpd
 fi
