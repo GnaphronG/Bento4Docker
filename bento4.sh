@@ -1,7 +1,7 @@
 #! /bin/bash
 
 set -e
-WORKDIR=/opt/bento4/bin
+WORKDIR=/opt/bento4
 MOUNTPOINT=/mnt
 
 if [ $# -lt 1 -o "$1" = "ls" ]; then
@@ -19,7 +19,7 @@ ending paramter with be converted into a HTTP range header
 (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35).
 
 Available tools: 
-`ls $WORKDIR | sed -e '/.so$/d' -e 's/^/  /'`
+`ls $WORKDIR/bin/* $WORKDIR/utils/* | sed -e '/.so$/d' -e 's/.*\/\([^/]\+\)$/  \1/'`
 
 See https://www.bento4.com/documentation/ for details on the command.
 Running the tool without any argument will print out a summary of the tool’s command line options and parameters.
@@ -36,6 +36,11 @@ else
         fi
         args="${args} ${arg}"
     done
-    $WORKDIR/$args
+    if echo $args | grep -o '\.py$'; then
+        python2.7 $WORKDIR/utils/$args
+    else
+        $WORKDIR/bin/$args
+    fi
+
     rm -rf $tmpd
 fi
