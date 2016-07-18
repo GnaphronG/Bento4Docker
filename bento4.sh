@@ -1,7 +1,7 @@
 #! /bin/bash
 
 set -e
-WORKDIR=/opt/bento4
+EXEC_PREFIX=/opt/bento4/bin
 MOUNTPOINT=/mnt
 
 if [ $# -lt 1 -o "$1" = "ls" ]; then
@@ -36,11 +36,7 @@ else
         fi
         args="${args} ${arg}"
     done
-    if echo $args | grep -o '\.py$'; then
-        python2.7 $WORKDIR/utils/$args
-    else
-        $WORKDIR/bin/$args
-    fi
+    $EXEC_PREFIX/$args
 
     rm -rf $tmpd
 fi
