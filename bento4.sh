@@ -19,7 +19,7 @@ ending paramter with be converted into a HTTP range header
 (https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.35).
 
 Available tools: 
-`ls $WORKDIR/bin/* $WORKDIR/utils/* | sed -e '/.so$/d' -e 's/.*\/\([^/]\+\)$/  \1/'`
+`ls $EXEC_PREFIX/* | sed -e '/.so$/d' -e 's/.*\/\([^/]\+\)$/  \1/'`
 
 See https://www.bento4.com/documentation/ for details on the command.
 Running the tool without any argument will print out a summary of the tool’s command line options and parameters.
