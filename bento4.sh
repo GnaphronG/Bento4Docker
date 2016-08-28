@@ -4,6 +4,12 @@ set -e
 EXEC_PREFIX=/opt/bento4/bin
 MOUNTPOINT=/mnt
 
+#ls -r /opt/bento4
+#sed -i -e '680s@.*@        buffer_size = (buffer_time*bandwidth)/10.0@' /opt/bento4/utils/mp4utils.py
+#sed -i -e '684s@.*@            max_avail = buffer_size+accu_duration*bandwidth/10.0@' /opt/bento4/utils/mp4utils.py
+#sed -i -e '686s@.*@                bandwidth = 10.0*(accu_size-buffer_size)/accu_duration@' /opt/bento4/utils/mp4utils.py
+#cat /opt/bento4/utils/mp4utils.py
+
 if [ $# -lt 1 -o "$1" = "ls" ]; then
     cat << EOF
 Bento4 in Docker $BENTO4_VERSION

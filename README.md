@@ -46,8 +46,8 @@ Running the tool without any argument will print out a summary of the tool’s c
 ```
 
 ## Contributors
-[GG](https://code.mgo.com/users/ggoussard)
+[GG](https://github.com/ggoussard)
 
 ## License
 
-Licensed under the [WTFPL](http://www.wtfpl.net/txt/copying/).
+Licensed under the [GPL 2.0](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)

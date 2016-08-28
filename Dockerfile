@@ -2,7 +2,7 @@ FROM debian:jessie
 
 MAINTAINER Guillaume Goussard <ggoussard@fandango.com>
 
-WORKDIR /opt
+WORKDIR /mnt
 ENV DEBIAN_FRONTEND=noninteractive
 ENV PATH="$PATH:/opt/bento4/bin"
 ENV BENTO4_VERSION="1-5-0-613"
@@ -15,9 +15,8 @@ RUN apt-get update && \
     apt-get install -yq --no-install-recommends curl python unzip && \
     curl -O -s http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
     sha1sum -b Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip | grep -o "^$BENTO4_CHECKSUM " && \
-    unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
-    ln -s /opt/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux /opt/bento4 && \
-    chown -R bento4:bento4 /opt/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux && \
+    unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip -d /opt/bento4 && \
+    chown -R bento4:bento4 /opt/bento4 && \
     apt-get -yq purge unzip && \
     apt-get -yq autoclean && \
     rm -rf /var/lib/apt/lists/* Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip
