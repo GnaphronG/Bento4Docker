@@ -3,9 +3,9 @@ FROM debian:jessie
 MAINTAINER Guillaume Goussard <guillaume.goussard@gmail.com>
 
 WORKDIR /mnt
-ENV PATH="$PATH:/opt/bento4/bin"
-ENV BENTO4_VERSION="1-5-0-613"
-ENV BENTO4_CHECKSUM="4d4cd17ef6729fee152f6c391da04a6358cb918d"
+ENV PATH="$PATH:/opt/bento4/bin" \
+    BENTO4_VERSION="1-5-0-613" \
+    BENTO4_CHECKSUM="4d4cd17ef6729fee152f6c391da04a6358cb918d"
 
 RUN groupadd -r bento4 && \
     useradd -r -g bento4 bento4
@@ -22,7 +22,6 @@ RUN apt-get -yq update && \
 
 COPY bento4.sh /opt/bento4/bento4.sh
 
-WORKDIR /mnt
 USER bento4
 
 ENTRYPOINT ["/opt/bento4/bento4.sh"]
