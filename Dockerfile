@@ -1,6 +1,6 @@
 FROM debian:jessie
 
-MAINTAINER Guillaume Goussard <ggoussard@gmail.com>
+MAINTAINER Guillaume Goussard <guillaume.goussard@gmail.com>
 
 WORKDIR /mnt
 ENV PATH="$PATH:/opt/bento4/bin"
