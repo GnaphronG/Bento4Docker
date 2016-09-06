@@ -14,7 +14,8 @@ RUN apt-get -yq update && \
     apt-get install -yq --no-install-recommends curl python unzip && \
     curl -O -s http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
     sha1sum -b Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip | grep -o "^$BENTO4_CHECKSUM " && \
-    unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip -d /opt/bento4 && \
+    unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip -d /opt && \
+    ln -s Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux /opt/bento4 && \
     chown -R bento4:bento4 /opt/bento4 && \
     apt-get -yq purge unzip && \
     apt-get -yq autoclean && \
