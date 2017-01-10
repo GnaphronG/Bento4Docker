@@ -4,8 +4,8 @@ MAINTAINER Guillaume Goussard <guillaume.goussard@gmail.com>
 
 WORKDIR /mnt
 ENV PATH="$PATH:/opt/bento4/bin" \
-    BENTO4_VERSION="1-5-0-613" \
-    BENTO4_CHECKSUM="4d4cd17ef6729fee152f6c391da04a6358cb918d"
+    BENTO4_VERSION="1-5-0-614" \
+    BENTO4_CHECKSUM="361bb641abf16aa7b8d3541326fa6440a12a4422"
 
 RUN groupadd -r bento4 && \
     useradd -r -g bento4 bento4
