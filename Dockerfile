@@ -1,4 +1,4 @@
-ARG DEBIAN_VERSION=bullseye
+ARG DEBIAN_VERSION=bullseye-slim
 
 FROM debian:${DEBIAN_VERSION}
 
@@ -10,7 +10,7 @@ RUN groupadd -r bento4 && \
     useradd -r -g bento4 bento4
 
 RUN apt-get -yq update && \
-    apt-get install -yq --no-install-recommends ca-certificates curl python unzip && \
+    apt-get install -yq --no-install-recommends ca-certificates curl python3 unzip && \
     :
 
 RUN curl -lO https://www.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
