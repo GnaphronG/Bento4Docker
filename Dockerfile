@@ -1,19 +1,19 @@
-FROM debian:buster
+ARG DEBIAN_VERSION=bullseye
 
-MAINTAINER Guillaume Goussard <guillaume.goussard@gmail.com>
+FROM debian:${DEBIAN_VERSION}
 
 WORKDIR /mnt
-ENV PATH="$PATH:/opt/bento4/bin" \
-    BENTO4_VERSION="1-5-1-624" \
-    BENTO4_CHECKSUM="b7e42d013ad22be8c608173cdb5444f31cffd26d"
+ENV PATH="$PATH:/opt/bento4/bin" 
+ENV BENTO4_VERSION="1-6-0-639"
 
 RUN groupadd -r bento4 && \
     useradd -r -g bento4 bento4
 
 RUN apt-get -yq update && \
-    apt-get install -yq --no-install-recommends curl python unzip && \
-    curl -O -s http://zebulon.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
-    # sha1sum -b Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip | grep -o "^$BENTO4_CHECKSUM " && \
+    apt-get install -yq --no-install-recommends ca-certificates curl python unzip && \
+    :
+
+RUN curl -lO https://www.bok.net/Bento4/binaries/Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip && \
     unzip Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux.zip -d /opt && \
     ln -s Bento4-SDK-${BENTO4_VERSION}.x86_64-unknown-linux /opt/bento4 && \
     chown -R bento4:bento4 /opt/bento4 && \
