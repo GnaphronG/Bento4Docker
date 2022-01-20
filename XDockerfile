@@ -1,0 +1,61 @@
+ARG DEBIAN_VERSION=bullseye-slim
+ARG BENTO4_VERSION="v1.6.0-639"
+
+FROM --platform=${BUILDPLATFORM:-amd64} debian:${DEBIAN_VERSION} AS builder
+ARG BENTO4_VERSION 
+
+### XCompile
+ARG TARGETARCH
+COPY xcompile_profile /root/.profile
+SHELL ["/bin/sh","-l", "-c"]
+## XCompile
+
+WORKDIR /usr/src/bento4
+
+RUN apt-get -yq update && \
+    apt-get install -yq --no-install-recommends \
+    ca-certificates \
+    curl \
+    python3 \
+    unzip \
+    git \
+    build-essential \
+    cmake \
+    gcc-${XCOMPILER_TARGET} \
+    g++-${XCOMPILER_TARGET} 
+
+RUN git clone -c advice.detachedHead=false \
+        --branch ${BENTO4_VERSION} \
+        --single-branch https://github.com/axiomatic-systems/Bento4.git \
+        /usr/src/bento4
+
+RUN mkdir cmakebuild && \
+    cd cmakebuild && \
+    cmake -DCMAKE_BUILD_TYPE=Release \
+    	-DCMAKE_C_COMPILER=${GCC_BUILD_TARGET}-gcc \
+	-DCMAKE_CXX_COMPILER=${GCC_BUILD_TARGET}-g++ .. && \
+    make
+
+RUN mkdir -p /opt/bento4/bin && \
+    mkdir -p /opt/bento4/utils && \
+    cp $(find cmakebuild/ -maxdepth 1 -type f -executable -print) /opt/bento4/bin && \
+    cp ./Source/Python/utils/* /opt/bento4/utils 
+
+FROM debian:${DEBIAN_VERSION} AS release
+
+WORKDIR /mnt
+ENV PATH="$PATH:/opt/bento4/bin" 
+
+RUN groupadd -r bento4 && \
+    useradd -r -g bento4 bento4
+
+RUN apt-get -yq update && \
+    apt-get install -yq --no-install-recommends ca-certificates python3 && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=builder /opt/bento4 /opt/bento4
+COPY bento4.sh /opt/bento4/bento4.sh
+
+USER bento4
+
+ENTRYPOINT ["/opt/bento4/bento4.sh"]
